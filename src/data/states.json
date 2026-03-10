@@ -1,0 +1,62 @@
+{
+  "NSW": [
+    "sydney-nsw-2000",
+    "bondi-nsw-2026",
+    "parramatta-nsw-2150",
+    "manly-nsw-2095",
+    "surry-hills-nsw-2010",
+    "chatswood-nsw-2067",
+    "newtown-nsw-2042",
+    "penrith-nsw-2750",
+    "mosman-nsw-2088",
+    "wollongong-nsw-2500",
+    "cronulla-nsw-2230",
+    "dee-why-nsw-2099",
+    "blacktown-nsw-2148",
+    "liverpool-nsw-2170",
+    "castle-hill-nsw-2154",
+    "epping-nsw-2121",
+    "coogee-nsw-2034"
+  ],
+  "VIC": [
+    "melbourne-vic-3000",
+    "richmond-vic-3121",
+    "st-kilda-vic-3182",
+    "south-yarra-vic-3141",
+    "brunswick-vic-3056",
+    "geelong-vic-3220",
+    "toorak-vic-3142",
+    "fitzroy-vic-3065",
+    "brighton-vic-3186"
+  ],
+  "QLD": [
+    "brisbane-city-qld-4000",
+    "paddington-qld-4064",
+    "gold-coast-qld-4217",
+    "noosa-heads-qld-4567",
+    "west-end-qld-4101",
+    "new-farm-qld-4005",
+    "cairns-city-qld-4870",
+    "townsville-qld-4810"
+  ],
+  "WA": [
+    "perth-wa-6000",
+    "fremantle-wa-6160",
+    "cottesloe-wa-6011"
+  ],
+  "SA": [
+    "adelaide-sa-5000",
+    "glenelg-sa-5045",
+    "north-adelaide-sa-5006"
+  ],
+  "TAS": [
+    "hobart-tas-7000",
+    "battery-point-tas-7004"
+  ],
+  "ACT": [
+    "canberra-act-2600"
+  ],
+  "NT": [
+    "darwin-nt-0800"
+  ]
+}

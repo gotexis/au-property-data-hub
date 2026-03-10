@@ -1,0 +1,63 @@
+import suburbsData from '@/data/suburbs.json';
+
+export interface Suburb {
+  slug: string;
+  name: string;
+  state: string;
+  postcode: string;
+  medianHousePrice: number;
+  medianUnitPrice: number;
+  medianRentHouse: number;
+  medianRentUnit: number;
+  houseGrowth1yr: number;
+  houseGrowth5yr: number;
+  rentalYield: number;
+  population: number;
+  medianAge: number;
+  medianIncome: number;
+  ownerOccupied: number;
+  renting: number;
+  familyHouseholds: number;
+  singleHouseholds: number;
+  lat: number;
+  lng: number;
+  description: string;
+}
+
+export function getAllSuburbs(): Suburb[] {
+  return suburbsData as Suburb[];
+}
+
+export function getSuburbBySlug(slug: string): Suburb | undefined {
+  return getAllSuburbs().find(s => s.slug === slug);
+}
+
+export function getSuburbsByState(state: string): Suburb[] {
+  return getAllSuburbs().filter(s => s.state === state);
+}
+
+export function getAllStates(): string[] {
+  return [...new Set(getAllSuburbs().map(s => s.state))];
+}
+
+export function formatPrice(price: number): string {
+  if (price >= 1000000) {
+    return `$${(price / 1000000).toFixed(1)}M`;
+  }
+  return `$${(price / 1000).toFixed(0)}K`;
+}
+
+export function formatFullPrice(price: number): string {
+  return new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 }).format(price);
+}
+
+export const STATE_NAMES: Record<string, string> = {
+  NSW: 'New South Wales',
+  VIC: 'Victoria',
+  QLD: 'Queensland',
+  WA: 'Western Australia',
+  SA: 'South Australia',
+  TAS: 'Tasmania',
+  ACT: 'Australian Capital Territory',
+  NT: 'Northern Territory',
+};
