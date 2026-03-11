@@ -6,22 +6,26 @@ export interface Suburb {
   state: string;
   postcode: string;
   medianHousePrice: number;
-  medianUnitPrice: number;
-  medianRentHouse: number;
-  medianRentUnit: number;
-  houseGrowth1yr: number;
-  houseGrowth5yr: number;
-  rentalYield: number;
-  population: number;
-  medianAge: number;
-  medianIncome: number;
-  ownerOccupied: number;
-  renting: number;
-  familyHouseholds: number;
-  singleHouseholds: number;
-  lat: number;
-  lng: number;
+  medianUnitPrice: number | null;
+  medianRentHouse: number | null;
+  medianRentUnit: number | null;
+  houseGrowth1yr: number | null;
+  houseGrowth5yr: number | null;
+  rentalYield: number | null;
+  population: number | null;
+  medianAge: number | null;
+  medianIncome: number | null;
+  ownerOccupied: number | null;
+  renting: number | null;
+  familyHouseholds: number | null;
+  singleHouseholds: number | null;
+  lat: number | null;
+  lng: number | null;
   description: string;
+  numSales?: number | null;
+  dataSource?: string;
+  dataPeriod?: string;
+  quarterlyGrowth?: number | null;
 }
 
 export function getAllSuburbs(): Suburb[] {

@@ -6,16 +6,22 @@ import suburbsData from '@/data/suburbs.json';
 
 interface Suburb {
   slug: string; name: string; state: string; postcode: string;
-  medianHousePrice: number; medianUnitPrice: number; medianRentHouse: number; medianRentUnit: number;
-  houseGrowth1yr: number; houseGrowth5yr: number; rentalYield: number;
-  population: number; medianAge: number; medianIncome: number;
-  ownerOccupied: number; renting: number; familyHouseholds: number; singleHouseholds: number;
+  medianHousePrice: number; medianUnitPrice: number | null; medianRentHouse: number | null; medianRentUnit: number | null;
+  houseGrowth1yr: number | null; houseGrowth5yr: number | null; rentalYield: number | null;
+  population: number | null; medianAge: number | null; medianIncome: number | null;
+  ownerOccupied: number | null; renting: number | null; familyHouseholds: number | null; singleHouseholds: number | null;
+  numSales?: number | null;
 }
 
-const suburbs = suburbsData as Suburb[];
+const suburbs = suburbsData as unknown as Suburb[];
 
 function fmt(n: number) {
   return n >= 1000000 ? `$${(n/1000000).toFixed(1)}M` : `$${(n/1000).toFixed(0)}K`;
+}
+
+function fmtVal(v: number | null | undefined, format?: (v: number) => string, suffix?: string): string {
+  if (v == null) return 'N/A';
+  return format ? format(v) : `${v}${suffix || ''}`;
 }
 
 export default function ComparePage() {
@@ -38,6 +44,7 @@ export default function ComparePage() {
     { label: 'Median Income', key: 'medianIncome', format: fmt },
     { label: 'Owner Occupied', key: 'ownerOccupied', suffix: '%' },
     { label: 'Renting', key: 'renting', suffix: '%' },
+    { label: 'Sales (Quarter)', key: 'numSales' },
   ];
 
   return (
@@ -67,14 +74,13 @@ export default function ComparePage() {
             </thead>
             <tbody>
               {rows.map(r => {
-                const va = subA[r.key] as number;
-                const vb = subB[r.key] as number;
-                const fmtV = (v: number) => r.format ? r.format(v) : `${v}${r.suffix || ''}`;
+                const va = subA[r.key] as number | null;
+                const vb = subB[r.key] as number | null;
                 return (
                   <tr key={r.key}>
                     <td>{r.label}</td>
-                    <td className={va > vb ? 'font-bold text-success' : ''}>{fmtV(va)}</td>
-                    <td className={vb > va ? 'font-bold text-success' : ''}>{fmtV(vb)}</td>
+                    <td className={va != null && vb != null && va > vb ? 'font-bold text-success' : ''}>{fmtVal(va, r.format, r.suffix)}</td>
+                    <td className={va != null && vb != null && vb > va ? 'font-bold text-success' : ''}>{fmtVal(vb, r.format, r.suffix)}</td>
                   </tr>
                 );
               })}

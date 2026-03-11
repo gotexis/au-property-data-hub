@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
   const name = STATE_NAMES[stateUpper];
   if (!name) return {};
   return {
-    title: `${name} (${stateUpper}) Suburb Property Prices`,
-    description: `Compare suburb house prices, rental yields, and growth across ${name}. Find the best suburbs to buy or invest in ${stateUpper}.`,
+    title: `${name} (${stateUpper}) Suburb Property Prices — ${getSuburbsByState(stateUpper).length} Suburbs`,
+    description: `Compare suburb house prices and growth trends across ${name}. Official government property data for ${getSuburbsByState(stateUpper).length} suburbs.`,
   };
 }
 
@@ -25,9 +25,9 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
   if (!stateName) notFound();
 
   const suburbs = getSuburbsByState(stateUpper).sort((a, b) => b.medianHousePrice - a.medianHousePrice);
+  if (suburbs.length === 0) notFound();
 
   const avgPrice = Math.round(suburbs.reduce((sum, s) => sum + s.medianHousePrice, 0) / suburbs.length);
-  const avgYield = (suburbs.reduce((sum, s) => sum + s.rentalYield, 0) / suburbs.length).toFixed(1);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -39,7 +39,7 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
       </div>
 
       <h1 className="text-4xl font-bold mb-2">{stateName} Property Data</h1>
-      <p className="text-lg opacity-70 mb-8">{suburbs.length} suburbs · Avg median house price {formatPrice(avgPrice)} · Avg yield {avgYield}%</p>
+      <p className="text-lg opacity-70 mb-8">{suburbs.length} suburbs · Avg median house price {formatPrice(avgPrice)}</p>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra">
@@ -48,24 +48,20 @@ export default async function StatePage({ params }: { params: Promise<{ state: s
               <th>Suburb</th>
               <th>Postcode</th>
               <th>Median House</th>
-              <th>Median Unit</th>
-              <th>House Rent/wk</th>
-              <th>1yr Growth</th>
-              <th>Yield</th>
-              <th>Population</th>
+              <th>Quarterly Growth</th>
+              <th>Sales (Q)</th>
             </tr>
           </thead>
           <tbody>
             {suburbs.map(s => (
               <tr key={s.slug}>
                 <td><Link href={`/suburb/${s.slug}`} className="link link-hover font-medium">{s.name}</Link></td>
-                <td>{s.postcode}</td>
+                <td>{s.postcode || '—'}</td>
                 <td>{formatPrice(s.medianHousePrice)}</td>
-                <td>{formatPrice(s.medianUnitPrice)}</td>
-                <td>${s.medianRentHouse}</td>
-                <td className="text-success">+{s.houseGrowth1yr}%</td>
-                <td>{s.rentalYield}%</td>
-                <td>{s.population.toLocaleString()}</td>
+                <td className={((s as any).quarterlyGrowth ?? 0) >= 0 ? 'text-success' : 'text-error'}>
+                  {(s as any).quarterlyGrowth != null ? `${(s as any).quarterlyGrowth > 0 ? '+' : ''}${(s as any).quarterlyGrowth}%` : '—'}
+                </td>
+                <td>{(s as any).numSales ?? '—'}</td>
               </tr>
             ))}
           </tbody>
