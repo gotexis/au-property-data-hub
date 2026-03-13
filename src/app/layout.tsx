@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="btn btn-ghost text-xl">🏡 AU Property Hub</Link>
           </div>
           <div className="flex-none gap-2">
+            <Link href="/tools" className="btn btn-sm btn-outline">Tools</Link>
             <Link href="/compare" className="btn btn-sm btn-outline">Compare</Link>
             <Link href="/state/nsw" className="btn btn-sm btn-ghost">NSW</Link>
             <Link href="/state/vic" className="btn btn-sm btn-ghost">VIC</Link>
